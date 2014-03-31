@@ -1,5 +1,8 @@
 HTML5 Camera app by Patrick Haggood
-A demonstration app built for Teaching and Learning's HTML5 lunch and learn in March 2014</p>
+
+A demonstration app built for Teaching and Learning's HTML5 lunch and learn in March 2014
+
+
 
 Frameworks Used
 
