@@ -1,0 +1,20 @@
+<ion-view title="Photo View">
+    <ion-content class="has-header">
+        <div class="card">
+            <div class="item item-image">
+                <img src="{{galleryPicture.pic}}"/>
+            </div>
+            <div class="item">
+                <h2>Image #{{galleryPicture.id}}</h2>
+                <p>{{galleryPicture.date}}</p>
+            </div>
+            <div class="item">
+                <div class="button-bar">
+                    <a class="button">Upload</a>
+                    <a class="button">Effects</a>
+                    <a class="button" ng-click="removePic()">Remove</a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

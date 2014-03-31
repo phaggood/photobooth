@@ -1,0 +1,30 @@
+<ion-view title="Camera">
+  <ion-content class="has-header padding">
+          <!-- video id="webcam" autoplay ></video -->
+
+          <div class="item item-image">
+            <webcam on-stream="onStream(stream,video)"
+                  on-access-denied="onError(err)"
+                  on-streaming="onSuccess(video)">
+            </webcam>
+            <div ng-show="cameraReady">
+              <button  class="btn btn-primary" ng-click="takePicture()">Click</button>
+            </div>
+          </div>
+
+          <div class="item item-image">
+            <div ng-show="picReady">
+              <canvas id="snapshot"></canvas>
+              <p>
+                  <button  class="btn btn-primary" ng-click="addToGallery()">Save To Gallery</button>
+              </p>
+            </div>
+          </div>
+
+  </ion-content>
+    <div class="bar bar-footer bar-positive">
+        <div ng-show="hasGallery">
+            <div class="title">Image Count {{galleryCount}}</div>
+        </div>
+    </div>
+</ion-view>
