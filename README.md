@@ -3,8 +3,8 @@ A demonstration app built for Teaching and Learning's HTML5 lunch and learn in M
 
 Frameworks Used
 
-href="http://angularjs.org/">Angular
-href="https://github.com/jonashartmann/webcam-directive">WebCam
-href="http://gregpike.net/demos/angular-local-storage/demo/demo.html">LocalStorage
-href="http://ionicframework.com/getting-started/">Ionic Framework
-href="http://angular-ui.github.io/ui-router/sample/#/">UI Router
+http://angularjs.org/                                           Angular
+https://github.com/jonashartmann/webcam-directive               WebCam
+http://gregpike.net/demos/angular-local-storage/demo/demo.html  LocalStorage
+http://ionicframework.com/getting-started/                      Ionic Framework
+http://angular-ui.github.io/ui-router/sample/#                  UI Router
