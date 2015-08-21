@@ -4,9 +4,7 @@ angular.module('starter.controllers', [])
         $scope.gallery = [];
         // init controller by getting list of pics
         $scope.getPic = function() {
-            console.log("Getting pic " + $stateParams.id);
             $scope.data.pic = GalleryService.getPic($stateParams.id);
-            console.log("Found pic " + $scope.data.pic.name);
         };
 
         // init controller by getting list of pics
@@ -15,12 +13,17 @@ angular.module('starter.controllers', [])
         };
 
         $scope.deleteGallery = function() {
-            GalleryService.purgeGallery();
-            $state.go("tab.camera");
-        };
-
-        $scope.cancelDeleteGallery = function() {
-            $state.go("tab.gallery");
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Purge',
+                template: 'Are you sure you want to delete entire gallery??'
+            });
+            confirmPopup.then(
+                function (res) {
+                    if (res) {
+                        GalleryService.purgeGallery();
+                        $state.go("tab.camera");
+                    }
+                })
         };
 
         $scope.deletePic = function() {
@@ -31,4 +34,5 @@ angular.module('starter.controllers', [])
 
         // init picture list
         $scope.getPics();
+        alert("here");
 });

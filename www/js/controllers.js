@@ -14,7 +14,7 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope) {
 })
 
-.controller('GalleryCtl', function($scope, $stateParams,$state, GalleryService) { // }, $stateParams) { //},localStorageService){
+.controller('GalleryCtl', function($scope, $stateParams,$state,$ionicPopup,GalleryService) { // }, $stateParams) { //},localStorageService){
         $scope.gallery = [];
         // init controller by getting list of pics
         $scope.getPic = function() {
@@ -29,9 +29,18 @@ angular.module('starter.controllers', [])
         };
 
         $scope.deleteGallery = function() {
-            GalleryService.purgeGallery();
-            $state.go("tab.camera");
-        }
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Purge',
+                template: 'Are you sure you want to delete entire gallery??'
+            });
+            confirmPopup.then(
+                function (res) {
+                    if (res) {
+                        GalleryService.purgeGallery();
+                        $state.go("tab.camera");
+                    }
+                })
+        };
 
         $scope.cancelDeleteGallery = function() {
             $state.go("tab.gallery");
@@ -58,6 +67,93 @@ angular.module('starter.controllers', [])
             $scope.galleryPicture = GalleryService.removePic($stateParams.id);
             $state.go('tab.gallery');
         };
+
+
+        function dataURItoBlob(dataURI) {
+            var binary = atob(dataURI.split(',')[1]);
+            var array = [];
+            for(var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+        }
+
+
+        $scope.uploadBase64ImgToS3 = function(id, filename, callback){
+            var xmlhttp = new XMLHttpRequest();
+            var blobData = dataURItoBlob(base64Data);
+            var contentType = false;
+            if (filename.match(/.png/)) var contentType = 'image/png';
+            if (filename.match(/.jpg/)) contentType = 'image/jpeg';
+            if (!contentType){
+                xStat.rec("content type not determined, use suffix .png or .jpg");
+                return;
+            }
+
+            s3Man.getS3Policy(filename, function(s3Pkg){
+                console.log("policy:", s3Pkg);
+                var fd = new FormData();
+                fd.append('key', s3Pkg.filename);
+                fd.append('acl', 'public-read');
+                fd.append('Content-Type', file.type);
+                fd.append('AWSAccessKeyId', s3Pkg.awsKey);
+                fd.append('policy',  s3Pkg.policy);
+                fd.append('signature', s3Pkg.signature);
+                fd.append("file", blobData);
+                xmlhttp.open('POST', 'https://swoopuploadspublic.s3.amazonaws.com/', true);
+                xmlhttp.send(fd);
+            });
+        }
+
+/*
+        $scope.uploadPic = function(id) {
+            var Pic = GalleryService.getPic($stateParams.id);
+//            Pic = Pic.replace(/^data:image\/(png|jpg);base64,/, "");
+
+
+            var imgByte = Base64.decodeBase64(Pic);
+            var bis = new ByteArrayInputStream(imgByte)
+
+            val bucketName = "SOME_BUCKET"
+            val AWS_ACCESS_KEY = "KEY"
+            val AWS_SECRET_KEY = "SECRET"
+
+            val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+            val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
+            val md = new ObjectMetadata
+
+            amazonS3Client.putObject(bucketName, "fireside2.png", bis, md)
+        }
+
+
+            // Sending the image data to Server
+            $.ajax({
+                type: 'POST',
+                url: 'Save_Picture.aspx/UploadPic',
+                data: '{ "imageData" : "' + Pic + '" }',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {
+                    alert("Done, Picture Uploaded.");
+                }
+            });
+
+
+
+
+ $.post('/ajax/uploadthumbnail',
+ {
+ id : id,
+ img : canvas.toDataURL("image/png")
+ }, function(data) {
+ console.log(data);
+ });
+ */
+
+
+
+
+
         // init controller by getting a pic by $stateParams.id
         $scope.getPic();
 })

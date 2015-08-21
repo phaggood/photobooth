@@ -3,10 +3,10 @@
       <div class="card">
           <div class="item-list">
           <a ng-repeat="picture in gallery"
-             href="#/tab/photo/{{picture.id}}"
+             href="#/tab/photo/{{picture.date}}"
              class="item item-thumbnail-left">
               <img ng-src="{{ picture.pic }}">
-            <h2>{{picture.date}}</h2>
+            <h2>{{picture.date | date: 'MM/dd/yyyy hh:mm'}}</h2>
         </a>
       </div>
           </div>

@@ -66,7 +66,6 @@ angular.module('starter.controllers', [])
             // save pic
             $scope.newPic.pic = patCanvas.toDataURL('image/png');
             $scope.newPic.date = new Date();
-            $scope.newPic.id = -1;
             $scope.picReady = true;
         }
     };
